@@ -2,11 +2,26 @@ import Profile from "../models/Profile.js";
 
 /* CREATE */
 export const create = async (req, res) => {
-  const item = await Profile.create({
-    ...req.body,
-    image: req.file?.path
-  });
-  res.json(item);
+  try {
+
+    console.log("BODY:", req.body);
+    console.log("FILE:", req.file);
+
+    const item = await Profile.create({
+      ...req.body,
+      image: req.file?.path || ""
+    });
+
+    res.json(item);
+
+  } catch (error) {
+
+    console.error("PROFILE CREATE ERROR:", error);
+
+    res.status(500).json({
+      message: error.message
+    });
+  }
 };
 
 /* GET ALL */
@@ -23,15 +38,29 @@ export const getOne = async (req, res) => {
 
 /* UPDATE */
 export const update = async (req, res) => {
-  const updated = await Profile.findByIdAndUpdate(
-    req.params.id,
-    {
-      ...req.body,
-      ...(req.file && { image: req.file.path })
-    },
-    { new: true }
-  );
-  res.json(updated);
+  try {
+
+    const updated = await Profile.findByIdAndUpdate(
+      req.params.id,
+      {
+        ...req.body,
+        ...(req.file && {
+          image: req.file.path
+        })
+      },
+      { new: true }
+    );
+
+    res.json(updated);
+
+  } catch (error) {
+
+    console.error("PROFILE UPDATE ERROR:", error);
+
+    res.status(500).json({
+      message: error.message
+    });
+  }
 };
 
 /* DELETE */
