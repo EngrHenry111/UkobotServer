@@ -29,7 +29,7 @@ app.use(helmet());
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://rt-hon-asuakak-k2o9.vercel.app"
+    "https://honukobot.vercel.app"
   ],
   credentials: true
 }));
