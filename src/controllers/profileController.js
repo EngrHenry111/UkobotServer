@@ -1,28 +1,55 @@
 import Profile from "../models/Profile.js";
 
-/* CREATE */
 export const create = async (req, res) => {
+  console.log("===== CREATE PROFILE =====");
+  console.log("BODY:", req.body);
+  console.log("FILE:", req.file);
+
   try {
-
-    console.log("BODY:", req.body);
-    console.log("FILE:", req.file);
-
     const item = await Profile.create({
       ...req.body,
-      image: req.file?.path || ""
+      image: req.file?.path || "",
     });
 
+    console.log("PROFILE SAVED:", item);
+
     res.json(item);
-
   } catch (error) {
-
-    console.error("PROFILE CREATE ERROR:", error);
+    console.error("PROFILE CREATE ERROR:");
+    console.error(error);
 
     res.status(500).json({
-      message: error.message
+      success: false,
+      message: error.message,
+      stack: error.stack,
     });
   }
 };
+
+
+/* CREATE */
+// export const create = async (req, res) => {
+//   try {
+
+//     console.log("BODY:", req.body);
+//     console.log("FILE:", req.file);
+
+//     const item = await Profile.create({
+//       ...req.body,
+//       image: req.file?.path || ""
+//     });
+
+//     res.json(item);
+
+//   } catch (error) {
+
+//     console.error("PROFILE CREATE ERROR:", error);
+
+//     res.status(500).json({
+//       message: error.message
+//     });
+//   }
+// };
 
 /* GET ALL */
 export const getAll = async (req, res) => {
