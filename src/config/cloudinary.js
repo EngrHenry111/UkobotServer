@@ -4,10 +4,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// console.log("ENV CHECK:");
-// console.log("CLOUD_NAME:", process.env.CLOUD_NAME);
-// console.log("API_KEY:", process.env.CLOUD_API_KEY);
-// console.log("API_SECRET:", process.env.CLOUD_API_SECRET);
 
 
 cloudinary.config({
