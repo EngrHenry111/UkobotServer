@@ -32,19 +32,18 @@ export const create = async (req, res) => {
 
     const item = await Profile.create({
       ...req.body,
-      image: req.file?.path || "",
+      image: req.file?.path || ""
     });
 
     res.json(item);
 
   } catch (err) {
 
-    console.error("PROFILE ERROR:");
+    console.error("FULL ERROR:");
     console.error(err);
 
     res.status(500).json({
-      message: err.message,
-      stack: err.stack,
+      message: err.message
     });
   }
 };
