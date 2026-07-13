@@ -27,8 +27,13 @@ import Profile from "../models/Profile.js";
 export const create = async (req, res) => {
   try {
 
-    console.log("BODY:", req.body);
-    console.log("FILE:", req.file);
+    console.log("========================");
+    console.log("BODY");
+    console.log(req.body);
+
+    console.log("========================");
+    console.log("FILE");
+    console.log(req.file);
 
     const item = await Profile.create({
       ...req.body,
@@ -39,8 +44,8 @@ export const create = async (req, res) => {
 
   } catch (err) {
 
-    console.error("FULL ERROR:");
-    console.error(err);
+    console.log("========================");
+    console.log(err);
 
     res.status(500).json({
       message: err.message

@@ -8,7 +8,7 @@ import careerRoutes from "./src/routes/careerRoutes.js";
 import skillRoutes from "./src/routes/skillRoutes.js";
 import achievementRoutes from "./src/routes/achievementRoutes.js";
 import newsRoutes from "./src/routes/newsRoutes.js";
-import galleryRoutes from "./src/routes/galleryController.js";
+import galleryRoutes from "./src/routes/galleryRoutes.js";
 import leadershipRoutes from "./src/routes/leadershipRoutes.js";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
