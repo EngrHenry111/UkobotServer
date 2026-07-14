@@ -53,7 +53,15 @@ app.use("/api/news", newsRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/leadership", leadershipRoutes);
 
+app.use((err, req, res, next) => {
+  console.error("GLOBAL ERROR:");
+  console.error(err);
 
+  res.status(500).json({
+    message: err.message,
+    stack: process.env.NODE_ENV === "development" ? err.stack : undefined,
+  });
+});
 
 
 export default app;
