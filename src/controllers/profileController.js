@@ -1,93 +1,151 @@
 import Profile from "../models/Profile.js";
 
 /* CREATE */
-// export const create = async (req, res) => {
-//   try {
-
-//     console.log("BODY:", req.body);
-//     console.log("FILE:", req.file);
-
-//     const item = await Profile.create({
-//       ...req.body,
-//       image: req.file?.path || ""
-//     });
-
-//     res.json(item);
-
-//   } catch (error) {
-
-//     console.error("PROFILE CREATE ERROR:", error);
-
-//     res.status(500).json({
-//       message: error.message
-//     });
-//   }
-// };
-
 export const create = async (req, res) => {
   try {
-    console.log("========== PROFILE CREATE ==========");
-    console.log("BODY:", req.body);
-    console.log("FILE:", req.file);
 
     const item = await Profile.create({
       ...req.body,
-      image: req.file?.path || "",
+      image: req.file?.path || ""
     });
 
-    res.json(item);
+    res.status(201).json({
+      success: true,
+      message: "Profile created successfully.",
+      data: item
+    });
+
   } catch (err) {
-    console.error("========== PROFILE ERROR ==========");
-    console.error(err);
-    console.error(err.stack);
+
+    console.error("PROFILE CREATE ERROR:", err);
 
     res.status(500).json({
-      message: err.message,
+      success: false,
+      message: "Failed to create profile.",
+      error: err.message
     });
+
   }
 };
 
 /* GET ALL */
 export const getAll = async (req, res) => {
-  const data = await Profile.find().sort({ createdAt: -1 });
-  res.json(data);
+  try {
+
+    const data = await Profile.find().sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      data
+    });
+
+  } catch (err) {
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch profiles."
+    });
+
+  }
 };
 
 /* GET ONE */
 export const getOne = async (req, res) => {
-  const item = await Profile.findById(req.params.id);
-  res.json(item);
+
+  try {
+
+    const item = await Profile.findById(req.params.id);
+
+    if (!item) {
+      return res.status(404).json({
+        success: false,
+        message: "Profile not found."
+      });
+    }
+
+    res.json({
+      success: true,
+      data: item
+    });
+
+  } catch (err) {
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch profile."
+    });
+
+  }
+
 };
 
 /* UPDATE */
 export const update = async (req, res) => {
+
   try {
 
     const updated = await Profile.findByIdAndUpdate(
       req.params.id,
       {
         ...req.body,
-        ...(req.file && {
-          image: req.file.path
-        })
+        ...(req.file && { image: req.file.path })
       },
       { new: true }
     );
 
-    res.json(updated);
+    if (!updated) {
+      return res.status(404).json({
+        success: false,
+        message: "Profile not found."
+      });
+    }
 
-  } catch (error) {
+    res.json({
+      success: true,
+      message: "Profile updated successfully.",
+      data: updated
+    });
 
-    console.error("PROFILE UPDATE ERROR:", error);
+  } catch (err) {
+
+    console.error(err);
 
     res.status(500).json({
-      message: error.message
+      success: false,
+      message: "Failed to update profile.",
+      error: err.message
     });
+
   }
+
 };
 
 /* DELETE */
 export const remove = async (req, res) => {
-  await Profile.findByIdAndDelete(req.params.id);
-  res.json({ message: "Deleted" });
+
+  try {
+
+    const deleted = await Profile.findByIdAndDelete(req.params.id);
+
+    if (!deleted) {
+      return res.status(404).json({
+        success: false,
+        message: "Profile not found."
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Profile deleted successfully."
+    });
+
+  } catch (err) {
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete profile."
+    });
+
+  }
+
 };
