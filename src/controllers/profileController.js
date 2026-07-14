@@ -26,29 +26,23 @@ import Profile from "../models/Profile.js";
 
 export const create = async (req, res) => {
   try {
-
-    console.log("========================");
-    console.log("BODY");
-    console.log(req.body);
-
-    console.log("========================");
-    console.log("FILE");
-    console.log(req.file);
+    console.log("========== PROFILE CREATE ==========");
+    console.log("BODY:", req.body);
+    console.log("FILE:", req.file);
 
     const item = await Profile.create({
       ...req.body,
-      image: req.file?.path || ""
+      image: req.file?.path || "",
     });
 
     res.json(item);
-
   } catch (err) {
-
-    console.log("========================");
-    console.log(err);
+    console.error("========== PROFILE ERROR ==========");
+    console.error(err);
+    console.error(err.stack);
 
     res.status(500).json({
-      message: err.message
+      message: err.message,
     });
   }
 };
